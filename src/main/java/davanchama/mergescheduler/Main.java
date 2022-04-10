@@ -30,30 +30,40 @@ public class Main {
         //read names
         RequestHandler handler = new RequestHandler();
         ArrayList<String> names = handler.requestNames();
-        Integer week = handler.requestWeek();
-        if (names == null || week == null) {
+        if (names == null) {
             return;
         }
+        //read the current week
+        System.out.println("Enter the current week.");
+        Integer week = handler.requestWeek();
+        if (week == null) {
+            return;
+        }
+        //read if the user wants to shuffle the participants before
+        System.out.println("Do you first want to shuffle the participants?\n Otherwise the first users entered will" +
+            "be in the first meetings scheduled.");
+        Boolean ifShuffle = handler.requestYesNo();
+        if (ifShuffle == null) {
+            return;
+        }
+
         //construct team
         for (String name : names) {
             Person participant = new Person(name);
             routine.team.add(participant);
         }
 
-        System.out.println("Do you first want to shuffle the participants?");
-        try {
-            if (handler.requestYesNo()) {
-                Collections.shuffle(routine.team);
-                System.out.println("Shuffled participants");
-            }
-        } catch (NullPointerException e) {
-            return;
+        //shuffle if requested
+        if (ifShuffle) {
+            Collections.shuffle(routine.team);
+            System.out.println("Shuffled participants");
         }
 
+        //initialize the meetings
         routine.meetings = routine.initMeetings();
-
+        //run the algorithm
         routine.meetings = routine.constructNewMeetings();
-
+        //print the results
         for (Meeting m : routine.meetings) {
             System.out.println("Week " + week + ": " + m);
             week++;

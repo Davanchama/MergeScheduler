@@ -46,7 +46,7 @@ public class RequestHandler {
     }
 
     /**
-     * requests and reads the current week.
+     * requests and reads the next number input.
      * if the user types quit return null.
      *
      * @return the current week entered.
@@ -55,7 +55,7 @@ public class RequestHandler {
         boolean hasValidInput = false;
         Integer week = 0;
         while (!hasValidInput) {
-            System.out.println("Enter the current week number");
+            System.out.println("Enter an integer.");
             String input = scanner.nextLine();
 
             if (input.equals("quit")) {
