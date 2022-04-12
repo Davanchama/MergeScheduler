@@ -34,10 +34,16 @@ public class RequestHandler {
             }
 
             //hashset discards doubled inputs
-            names = new HashSet<String>(Arrays.asList(input.split(",")));
+            names = new HashSet<String>(Arrays.asList(input.split(",", -1)));
 
             if (names.size() > 2) {
                 hasValidInput = true;
+                for (String name: names) {
+                    if (name.equals("")) {
+                        System.out.println("Empty names are not allowed.");
+                        hasValidInput = false;
+                    }
+                }
             } else {
                 System.out.println("More than 2 different persons needed");
             }
