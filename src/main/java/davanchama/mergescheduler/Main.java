@@ -1,5 +1,8 @@
 package davanchama.mergescheduler;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -64,9 +67,36 @@ public class Main {
         //run the algorithm
         routine.meetings = routine.constructNewMeetings();
         //print the results
+        String result = "";
         for (Meeting m : routine.meetings) {
-            System.out.println("Week " + week + ": " + m);
+            result += "Week " + week + ": " + m + "\n";
             week++;
+        }
+        //remove the last newline
+        result = result.substring(0, result.length()-1);
+        System.out.println(result);
+
+        //read if user wants save to file
+        System.out.println("Do you want to save the meetings to a file?");
+        Boolean ifSave = handler.requestYesNo();
+
+        if (ifSave == null) {
+            return;
+        }
+        if (ifSave) {
+            boolean hasValidInput = false;
+            while(!hasValidInput) {
+                System.out.println("Enter the path of the file");
+                String path = handler.requestString();
+
+                try {
+                    Files.writeString(Paths.get(path), result);
+                    hasValidInput = true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("Invalid path.");
+                }
+            }
         }
 
     }

@@ -51,6 +51,21 @@ public class RequestHandler {
         return new ArrayList<>(names);
     }
 
+    public String requestString() {
+        boolean hasValidInput = false;
+        String str = "";
+        while(!hasValidInput) {
+            str = scanner.nextLine();
+
+            if (str.equals("quit")) {
+                return null;
+            }
+
+            hasValidInput = true;
+        }
+        return str;
+    }
+
     /**
      * requests and reads the next number input.
      * if the user types quit return null.
